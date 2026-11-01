@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Интерактивный тренажёр: ООП в JavaScript</title>
+  <link rel="stylesheet" href="trainer.css">
+</head>
+<body>
+
+  <!-- Шапка -->
+  <header>
+    <div class="header-title">
+      <h1>🚀 JavaScript OOP Simulator</h1>
+      <p>Интерактивная лаборатория: Классы, this, Инкапсуляция, Наследование и Полиморфизм</p>
+    </div>
+    <div class="header-stats">
+      <div class="progress-pill">
+        <span id="header-progress-text">Пройдено: 0/5 (0%)</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Навигация по табам -->
+  <nav class="tabs-nav">
+    <button class="tab-btn active" data-tab="tab-m1">🎮 1. Конструктор & this</button>
+    <button class="tab-btn" data-tab="tab-m2">🛡️ 2. Инкапсуляция (#, get/set)</button>
+    <button class="tab-btn" data-tab="tab-m3">🧬 3. Наследование (extends)</button>
+    <button class="tab-btn" data-tab="tab-m4">⚔️ 4. Арена Полиморфизма</button>
+    <button class="tab-btn" data-tab="tab-m5">💻 5. Практикум с автопроверкой</button>
+  </nav>
+
+  <!-- Основной контент -->
+  <main>
+
+    <!-- ============================================== -->
+    <!-- ТАБ 1: Конструктор и this -->
+    <!-- ============================================== -->
+    <section id="tab-m1" class="tab-pane active">
+      <div class="callout">
+        <strong>💡 Теория за 30 секунд:</strong> Класс — это чертёж. Конструктор (<code>constructor</code>) запускается один раз в момент рождения объекта при вызове <code>new Hero(...)</code>. Ключевое слово <code>this</code> указывает на тот самый объект, который прямо сейчас создаётся или выполняет метод.
+      </div>
+
+      <div class="grid-2">
+        <!-- Левая колонка: параметры и код -->
+        <div class="card">
+          <div class="card-header">
+            <h2>⚙️ Фабрика экземпляров</h2>
+            <span class="badge badge-blue">new Hero()</span>
+          </div>
+
+          <div class="form-group">
+            <label for="m1-name">Имя персонажа (this.name):</label>
+            <input type="text" id="m1-name" value="Артас" placeholder="Введите имя...">
+          </div>
+
+          <div class="form-group">
+            <label for="m1-role">Класс (this.role):</label>
+            <select id="m1-role">
+              <option value="Паладин">Паладин</option>
+              <option value="Маг">Маг</option>
+              <option value="Разбойник">Разбойник</option>
+              <option value="Воин">Воин</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="m1-weapon">Оружие (this.weapon):</label>
+            <input type="text" id="m1-weapon" value="Ледяная Скорбь" placeholder="Оружие...">
+          </div>
+
+          <button class="btn" id="m1-create-btn" style="width: 100%">✨ Собрать экземпляр: new Hero()</button>
+
+          <label style="margin-top: 1rem">Генерируемый JS-код:</label>
+          <div class="code-box" id="m1-code-preview"></div>
+        </div>
+
+        <!-- Правая колонка: живой объект и лог -->
+        <div>
+          <div class="card">
+            <div class="card-header">
+              <h2>🧠 Объект в оперативной памяти</h2>
+              <span class="badge badge-purple">Инспектор this</span>
+            </div>
+
+            <div id="m1-card-container">
+              <p style="color: var(--text-muted); font-size: 0.9rem">
+                Нажмите кнопку <b>"Собрать экземпляр"</b> слева, чтобы создать объект и протестировать его методы в реальном времени!
+              </p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h2>📜 Консоль действий объекта</h2>
+            </div>
+            <div class="console-box" id="m1-log"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- ТАБ 2: Инкапсуляция (#, get, set) -->
+    <!-- ============================================== -->
+    <section id="tab-m2" class="tab-pane">
+      <div class="callout callout-warn">
+        <strong>🛡️ Зачем нужна инкапсуляция?</strong> Без неё любой программист или хакер может напрямую перезаписать важные свойства объекта (например, <code>account.balance = -99999</code>). Приватные поля <code>#balance</code> и сеттеры <code>set balance(v)</code> защищают данные от порчи.
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h2>💳 Банковский Счёт</h2>
+            <span id="m2-status-badge" class="badge badge-amber">⚠️ РЕЖИМ БЕЗ ИНКАПСУЛЯЦИИ</span>
+          </div>
+
+          <div style="margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.8rem">
+            <input type="checkbox" id="m2-mode-toggle" style="width: 20px; height: 20px; cursor: pointer;">
+            <label for="m2-mode-toggle" style="margin-bottom: 0; cursor: pointer; color: var(--text-main); font-size: 0.95rem;">
+              <b>Включить инкапсуляцию (#balance + сеттер с валидацией)</b>
+            </label>
+          </div>
+
+          <div style="background: #090d16; border: 1px solid var(--border); border-radius: 8px; padding: 1rem; text-align: center; margin-bottom: 1rem;">
+            <div style="font-size: 0.85rem; color: var(--text-muted)">Текущий баланс счёта:</div>
+            <div id="m2-balance-display" style="font-size: 2.2rem; font-weight: 800; color: #38bdf8;">5000 ₽</div>
+          </div>
+
+          <div style="margin-bottom: 1rem;">
+            <label>Легальные операции (через методы):</label>
+            <div class="btn-group">
+              <button class="btn btn-success" id="m2-btn-deposit">➕ Пополнить (+1000 ₽)</button>
+              <button class="btn" id="m2-btn-withdraw">➖ Снять (-500 ₽)</button>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 1rem;">
+            <label>Попытки взлома (проверка защиты):</label>
+            <div class="btn-group">
+              <button class="btn btn-danger" id="m2-hack-negative">💀 Записать минус: balance = -999999</button>
+              <button class="btn btn-secondary" id="m2-hack-private">🔒 Влезть в приватное: #balance = 0</button>
+            </div>
+          </div>
+
+          <button class="btn btn-secondary" id="m2-reset-btn" style="width: 100%; margin-top: 0.5rem">🔄 Сбросить состояние счёта</button>
+        </div>
+
+        <div>
+          <div class="card">
+            <div class="card-header">
+              <h2>💻 Исходный код текущего класса</h2>
+            </div>
+            <div class="code-box" id="m2-code-box"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h2>🚨 Монитор безопасности и ошибок</h2>
+            </div>
+            <div class="console-box" id="m2-log"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- ТАБ 3: Наследование (extends & super) -->
+    <!-- ============================================== -->
+    <section id="tab-m3" class="tab-pane">
+      <div class="callout">
+        <strong>🧬 Наследование (extends):</strong> Позволяет не дублировать код! Базовый класс <code>Hero</code> содержит общее для всех (имя, здоровье, крик). Дочерние классы <code>Warrior</code> и <code>Mage</code> наследуют его и вызывают <code>super(...)</code>, добавляя уникальные способности.
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h2>⚔️ Воин (Warrior extends Hero)</h2>
+            <span class="badge badge-blue">Унаследован от Hero</span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.8rem">
+            Свойства: <code>name: "Конан", hp: 250, shield: 80</code>
+          </p>
+          <div class="btn-group">
+            <button class="btn btn-secondary" id="m3-w-shout">📣 Род. метод: .shout()</button>
+            <button class="btn" id="m3-w-bash">🛡️ Свой метод: .shieldBash()</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>🔮 Маг (Mage extends Hero)</h2>
+            <span class="badge badge-purple">Унаследован от Hero</span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.8rem">
+            Свойства: <code>name: "Гендальф", hp: 120, mana: 100</code>
+          </p>
+          <div class="btn-group">
+            <button class="btn btn-secondary" id="m3-m-shout">📣 Род. метод: .shout()</button>
+            <button class="btn btn-danger" id="m3-m-fire">🔥 Свой метод: .fireball()</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2>📜 Лог выполнения методов цепочки прототипов</h2>
+        </div>
+        <div class="console-box" id="m3-log"></div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- ТАБ 4: Арена Полиморфизма -->
+    <!-- ============================================== -->
+    <section id="tab-m4" class="tab-pane">
+      <div class="callout">
+        <strong>🎭 Полиморфизм:</strong> Разные классы имеют метод с <i>одинаковым названием</i> (<code>takeTurn()</code>), но каждый выполняет его по-своему! В коде мы просто пишем единый цикл: <code>for (let unit of squad) { unit.takeTurn(boss); }</code>.
+      </div>
+
+      <!-- Босс -->
+      <div class="arena-view" id="m4-boss-card">
+        <div style="text-align: center;">
+          <div style="font-size: 4rem;">🐉</div>
+          <h2 style="color: #ef4444; font-size: 1.4rem">Древний Красный Дракон</h2>
+          <div style="margin-top: 0.5rem; width: 320px; max-width: 90vw; margin-left: auto; margin-right: auto;">
+            <div class="stat-bar-label">
+              <span>Здоровье Босса:</span>
+              <span id="m4-boss-hp">400 / 400</span>
+            </div>
+            <div class="stat-bar" style="height: 14px">
+              <div class="stat-fill stat-hp" id="m4-boss-bar" style="width: 100%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Отряд -->
+      <div class="card">
+        <div class="card-header">
+          <h2>🛡️ Ваш отряд (Массив полиморфных объектов)</h2>
+          <div class="btn-group">
+            <button class="btn btn-success" id="m4-turn-btn">⚡ Сделать полиморфный ход отрядом!</button>
+            <button class="btn btn-secondary" id="m4-reset-boss">🔄 Возродить Дракона</button>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; overflow-x: auto; padding-bottom: 1rem;" id="m4-squad-list">
+          <!-- Заполняется из JS -->
+        </div>
+
+        <div style="margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 1rem;">
+          <label>Добавить бойца в отряд:</label>
+          <div class="btn-group">
+            <button class="btn btn-secondary" onclick="addSquadMember('knight')">➕ Рыцарь (Меч)</button>
+            <button class="btn btn-secondary" onclick="addSquadMember('mage')">➕ Маг (Молния)</button>
+            <button class="btn btn-secondary" onclick="addSquadMember('priest')">➕ Жрец (Исцеление)</button>
+            <button class="btn btn-secondary" onclick="addSquadMember('rogue')">➕ Разбойник (Кинжалы)</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2>⚔️ Боевой лог раунда</h2>
+        </div>
+        <div class="console-box" id="m4-log"></div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- ТАБ 5: Практикум с автопроверкой -->
+    <!-- ============================================== -->
+    <section id="tab-m5" class="tab-pane">
+      <div class="card">
+        <div class="card-header">
+          <h2>✍️ Интерактивный тренажёр: Задачи по коду</h2>
+          <span class="badge badge-green">Автопроверка</span>
+        </div>
+
+        <!-- Кнопки выбора задач -->
+        <div class="task-selector" id="m5-task-selector"></div>
+
+        <h3 id="m5-task-title" style="margin-bottom: 0.5rem; color: var(--accent);">Загрузка...</h3>
+        <p id="m5-task-desc" style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;"></p>
+
+        <label for="m5-editor">Ваш JavaScript код:</label>
+        <textarea id="m5-editor" class="code-editor" spellcheck="false"></textarea>
+
+        <div style="display: flex; gap: 1rem; margin-top: 1rem; align-items: center; flex-wrap: wrap;">
+          <button class="btn btn-success" id="m5-run-btn">🚀 Запустить и проверить тесты</button>
+        </div>
+
+        <div style="margin-top: 1.2rem;">
+          <label>Результат тестирования:</label>
+          <div id="m5-result-box" style="background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; font-family: var(--font-mono); font-size: 0.85rem; min-height: 70px;">
+            Ожидание запуска тестов...
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="trainer.js"></script>
+</body>
+</html>
